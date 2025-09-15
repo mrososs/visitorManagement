@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavigationComponent],
   template: `
-    <h1>Welcome to {{title}}!</h1>
-
-    <router-outlet />
+    <div class="min-h-screen bg-background text-foreground">
+      <app-navigation></app-navigation>
+      <router-outlet></router-outlet>
+    </div>
   `,
   styles: [],
 })
