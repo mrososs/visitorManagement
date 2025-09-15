@@ -2,54 +2,97 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { Ripple } from 'primeng/ripple';
+
+
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule],
-  template: `
-    <nav class="bg-white shadow-sm border-b border-gray-200 p-4">
-      <div class="container mx-auto flex gap-4">
-        <p-button
-          label="List of Purposes"
-          [routerLink]="['/list-of-purposes']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Special Requirements"
-          [routerLink]="['/list-of-special-requirements']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Entry Instructions"
-          [routerLink]="['/list-of-entry-instructions']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Instructions to Submit Permit"
-          [routerLink]="['/list-of-instructions-to-submit-permit']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-      </div>
-    </nav>
-  `,
-  styles: [
-    `
-      p-button[text='true'] {
-        background: transparent !important;
-        color: #1f36b4 !important;
-        border: 1px solid #1f36b4 !important;
+  imports: [CommonModule,
+     Ripple,
+    RouterModule,
+    ButtonModule,
+    MenubarModule,
+    InputTextModule,
+    DropdownModule,
+    FormsModule,
+    IconFieldModule,
+    InputIconModule,
+    BadgeModule,
+    OverlayBadgeModule,
+    AvatarModule,
+    AvatarGroupModule,
+    MenuModule
+  ],
+  templateUrl: './navigation.component.html',
+
+})
+export class NavigationComponent {
+
+  UserProfileItems: MenuItem[] | undefined;
+  items: MenuItem[] | undefined;
+
+  ngOnInit() {
+    this.UserProfileItems = [
+      {
+        label: 'Refresh',
+        icon: 'pi pi-bell'
+      },
+      {
+        label: 'Export',
+        icon: 'pi pi-bell'
       }
 
-      p-button[text='true']:hover {
-        background: #1f36b4 !important;
-        color: white !important;
-      }
-    `,
-  ],
-})
-export class NavigationComponent {}
+
+    ];
+
+    this.items = [
+      {
+        label: 'Home',
+        icon: 'pi pi-home',
+      },
+      {
+        label: 'Projects',
+        icon: 'pi pi-search',
+        badge: '3',
+        items: [
+          {
+            label: 'Core',
+            icon: 'pi pi-bolt',
+            shortcut: '⌘+S',
+          },
+          {
+            label: 'Blocks',
+            icon: 'pi pi-server',
+            shortcut: '⌘+B',
+          },
+          {
+            separator: true,
+          },
+          {
+            label: 'UI Kit',
+            icon: 'pi pi-pencil',
+            shortcut: '⌘+U',
+          },
+        ],
+      },
+    ];
+
+
+  }
+
+
+}
