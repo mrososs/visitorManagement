@@ -1,0 +1,68 @@
+<aside class="sidebar h-full " [class.collapsed]="isCollapsed()">
+  <div class="sidebar-header">
+
+    <div class="text-left my-2  ">
+      <img src="assets/images/saned-logo{{ isCollapsed() ? '-icon' : '' }}.png" alt="Brand logo" class="sidebar-logo" />
+      <!-- <h1 class="text-left my-2 text-xl font-bold ">Visitor Management</h1> -->
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <span class="nav-item mb-5">
+      <span class="nav-icon">
+        <button class=" " (click)="toggleSidebar()" aria-label="Toggle sidebar">
+          <span class="collapse-icon pi {{ isCollapsed() ? 'pi-window-maximize' : 'pi-window-minimize' }}"></span>
+        </button>
+      </span>
+      <span class="nav-text">
+        Employee Name
+      </span>
+    </span>
+
+    <a routerLink="/list-of-purposes" class="nav-item">
+      <span class="nav-icon">
+        <i class="pi pi-bolt"></i>
+      </span>
+      <span class="nav-text">Purposes</span>
+    </a>
+
+
+    <a routerLink="/list-of-special-requirements" class="nav-item">
+      <span class="nav-icon">
+        <i class="pi pi-bolt"></i>
+      </span>
+      <span class="nav-text">Special Requirements</span>
+    </a>
+
+
+    <a routerLink="/list-of-entry-instructions" class="nav-item">
+      <span class="nav-icon">
+        <i class="pi pi-bolt"></i>
+      </span>
+      <span class="nav-text">Entry Instructions</span>
+    </a>
+
+
+
+
+    <a routerLink="/list-of-instructions-to-submit-permit" class="nav-item">
+      <span class="nav-icon">
+        <i class="pi pi-bolt"></i>
+      </span>
+      <span class="nav-text">Permit Instructions</span>
+    </a>
+
+    <!-- <a
+          routerLink="/form-schemas"
+          routerLinkActive="active"
+          class="nav-item"
+        >
+          <mat-icon class="nav-icon">inventory_2</mat-icon>
+          <span class="nav-text">Form Schemas</span>
+        </a> -->
+  </nav>
+
+  <div class="sidebar-footer">
+    <!-- <img src="assets/images/Saned U logo Dark.svg" alt="Brand logo" class="sidebar-logo" /> -->
+  </div>
+</aside>

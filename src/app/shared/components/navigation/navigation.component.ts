@@ -15,14 +15,14 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
-
+import { Menu } from 'primeng/menu';
 
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
   imports: [CommonModule,
-     Ripple,
+    Ripple,
     RouterModule,
     ButtonModule,
     MenubarModule,
@@ -35,7 +35,7 @@ import { Ripple } from 'primeng/ripple';
     OverlayBadgeModule,
     AvatarModule,
     AvatarGroupModule,
-    MenuModule
+    MenuModule, Menu
   ],
   templateUrl: './navigation.component.html',
 
@@ -43,54 +43,45 @@ import { Ripple } from 'primeng/ripple';
 export class NavigationComponent {
 
   UserProfileItems: MenuItem[] | undefined;
-  items: MenuItem[] | undefined;
+  NotificationItems: MenuItem[] | undefined;
 
   ngOnInit() {
+
     this.UserProfileItems = [
       {
-        label: 'Refresh',
-        icon: 'pi pi-bell'
+        label: 'Profile',
+        icon: 'pi pi-user',
+        routerLink: 'UserProfile'
       },
       {
-        label: 'Export',
-        icon: 'pi pi-bell'
-      }
-
-
-    ];
-
-    this.items = [
-      {
-        label: 'Home',
-        icon: 'pi pi-home',
+        label: 'Settings',
+        icon: 'pi pi-cog',
+        routerLink: 'Settings'
       },
       {
-        label: 'Projects',
-        icon: 'pi pi-search',
-        badge: '3',
-        items: [
-          {
-            label: 'Core',
-            icon: 'pi pi-bolt',
-            shortcut: '⌘+S',
-          },
-          {
-            label: 'Blocks',
-            icon: 'pi pi-server',
-            shortcut: '⌘+B',
-          },
-          {
-            separator: true,
-          },
-          {
-            label: 'UI Kit',
-            icon: 'pi pi-pencil',
-            shortcut: '⌘+U',
-          },
-        ],
+        separator: true,
+      },
+      {
+        label: 'LogOut',
+        icon: 'pi pi-sign-out',
+        routerLink: 'LogOut'
       },
     ];
 
+    this.NotificationItems = [
+      {
+        label: 'Messages 1',
+        icon: 'pi pi-envelope',
+      } ,
+      {
+        label: 'Messages 2',
+        icon: 'pi pi-envelope',
+      } ,
+      {
+        label: 'Messages 3',
+        icon: 'pi pi-envelope',
+      } 
+    ];
 
   }
 

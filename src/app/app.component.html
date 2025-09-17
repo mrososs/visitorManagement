@@ -1,0 +1,21 @@
+<div class="min-h-screen bg-background text-foreground">
+
+  <!-- Main Layout: Sidebar + Content Placeholder -->
+  <div class="layout-main flex h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <app-sidebar></app-sidebar>
+
+    </div>
+
+    <!-- MAIN CONTENT PLACEHOLDER -->
+    <div class="content-placeholder w-full bg-surface-100">
+      <div class="placeholder-box"> 
+         <app-navigation></app-navigation>
+
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+</div>
