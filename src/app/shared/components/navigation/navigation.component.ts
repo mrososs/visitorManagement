@@ -2,54 +2,88 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { Ripple } from 'primeng/ripple';
+import { Menu } from 'primeng/menu';
+
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule],
-  template: `
-    <nav class="bg-white shadow-sm border-b border-gray-200 p-4">
-      <div class="container mx-auto flex gap-4">
-        <p-button
-          label="List of Purposes"
-          [routerLink]="['/list-of-purposes']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Special Requirements"
-          [routerLink]="['/list-of-special-requirements']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Entry Instructions"
-          [routerLink]="['/list-of-entry-instructions']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-        <p-button
-          label="List of Instructions to Submit Permit"
-          [routerLink]="['/list-of-instructions-to-submit-permit']"
-          styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"
-          [text]="true"
-        />
-      </div>
-    </nav>
-  `,
-  styles: [
-    `
-      p-button[text='true'] {
-        background: transparent !important;
-        color: #1f36b4 !important;
-        border: 1px solid #1f36b4 !important;
-      }
-
-      p-button[text='true']:hover {
-        background: #1f36b4 !important;
-        color: white !important;
-      }
-    `,
+  imports: [CommonModule,
+    Ripple,
+    RouterModule,
+    ButtonModule,
+    MenubarModule,
+    InputTextModule,
+    DropdownModule,
+    FormsModule,
+    IconFieldModule,
+    InputIconModule,
+    BadgeModule,
+    OverlayBadgeModule,
+    AvatarModule,
+    AvatarGroupModule,
+    MenuModule, Menu
   ],
+  templateUrl: './navigation.component.html',
+
 })
-export class NavigationComponent {}
+export class NavigationComponent {
+
+  UserProfileItems: MenuItem[] | undefined;
+  NotificationItems: MenuItem[] | undefined;
+
+  ngOnInit() {
+
+    this.UserProfileItems = [
+      {
+        label: 'Profile',
+        icon: 'pi pi-user',
+        routerLink: 'UserProfile'
+      },
+      {
+        label: 'Settings',
+        icon: 'pi pi-cog',
+        routerLink: 'Settings'
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'LogOut',
+        icon: 'pi pi-sign-out',
+        routerLink: 'LogOut'
+      },
+    ];
+
+    this.NotificationItems = [
+      {
+        label: 'Messages 1',
+        icon: 'pi pi-envelope',
+      } ,
+      {
+        label: 'Messages 2',
+        icon: 'pi pi-envelope',
+      } ,
+      {
+        label: 'Messages 3',
+        icon: 'pi pi-envelope',
+      } 
+    ];
+
+  }
+
+
+}

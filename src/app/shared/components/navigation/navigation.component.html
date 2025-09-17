@@ -1,0 +1,38 @@
+<p-menubar class="main-navbar">
+    <ng-template pTemplate="start">
+        <!-- Search
+        <p-iconfield>
+            <p-inputicon class="pi pi-search" />
+            <input type="text" pInputText placeholder="What are you looking for?" pSize="small" />
+        </p-iconfield> -->
+
+    </ng-template>
+
+    <ng-template pTemplate="end" class="mr-2">
+        <span class="inline-flex mr-2">
+            <!-- Notification Bell -->
+
+            <p-menu #NotificationMenu [model]="NotificationItems" [popup]="true" />
+            <span class="flex mr-4" (click)="NotificationMenu.toggle($event)">
+                <p-overlaybadge value="3" class="mt-auto">
+                    <i class="pi pi-bell" style="font-size: 1rem"></i>
+                </p-overlaybadge>
+            </span>
+
+            <p-menu #UserProfileMenu [model]="UserProfileItems" [popup]="true" />
+            <button pRipple class="relative overflow-hidden w-full border-0 bg-transparent flex items-start "
+                (click)="UserProfileMenu.toggle($event)" icon="pi-angle-down">
+                <p-avatar image="./assets/images/user-avatar.jpg" class="mx-2 border-1 shadow" shape="circle" />
+                <span class="hidden md:inline-flex flex-col">
+                    <p class="font-bold text-xs text-left">Employee Name</p>
+                    <p class="text-xs text-left">name&#64;obeikan.com</p>
+                </span>
+                <i class="pi pi-angle-down my-auto mx-3" style="font-size: 1rem"></i>
+
+
+            </button>
+
+
+        </span>
+    </ng-template>
+</p-menubar>
