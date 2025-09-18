@@ -1,68 +1,105 @@
-<aside class="sidebar h-full " [class.collapsed]="isCollapsed()">
-  <div class="sidebar-header">
-
-    <div class="text-left my-2  ">
-      <img src="assets/images/saned-logo{{ isCollapsed() ? '-icon' : '' }}.png" alt="Brand logo" class="sidebar-logo" />
-      <!-- <h1 class="text-left my-2 text-xl font-bold ">Visitor Management</h1> -->
-    </div>
+<aside
+  class="relative flex min-h-screen h-full flex-col justify-between overflow-hidden rounded-xl rounded-l-none rounded-bl-none rounded-tr-none transition-[width] duration-300 ease-in-out text-white bg-gradient-to-br"
+  [ngClass]="
+    (isCollapsed() ? 'w-[72px] p-3' : 'w-64 p-6') + ' ' + getThemeClasses()
+  "
+>
+  <!-- Header: brand + collapse button -->
+  <div class="relative mb-9">
+    <button
+      class="absolute top-2 right-2 hidden md:inline-grid h-8 w-8 place-items-center rounded-full border border-white/30 bg-white/20 text-white hover:bg-white/30 transition"
+      (click)="toggleSidebar()"
+      aria-label="Toggle sidebar"
+    >
+      <i
+        class="pi"
+        [ngClass]="isCollapsed() ? 'pi-angle-right' : 'pi-angle-left'"
+      ></i>
+    </button>
   </div>
 
-  <nav class="sidebar-nav">
-    <span class="nav-item mb-5">
-      <span class="nav-icon">
-        <button class=" " (click)="toggleSidebar()" aria-label="Toggle sidebar">
-          <span class="collapse-icon pi {{ isCollapsed() ? 'pi-window-maximize' : 'pi-window-minimize' }}"></span>
-        </button>
-      </span>
-      <span class="nav-text">
-        Employee Name
-      </span>
-    </span>
-
-    <a routerLink="/list-of-purposes" class="nav-item">
-      <span class="nav-icon">
-        <i class="pi pi-bolt"></i>
-      </span>
-      <span class="nav-text">Purposes</span>
-    </a>
-
-
-    <a routerLink="/list-of-special-requirements" class="nav-item">
-      <span class="nav-icon">
-        <i class="pi pi-bolt"></i>
-      </span>
-      <span class="nav-text">Special Requirements</span>
-    </a>
-
-
-    <a routerLink="/list-of-entry-instructions" class="nav-item">
-      <span class="nav-icon">
-        <i class="pi pi-bolt"></i>
-      </span>
-      <span class="nav-text">Entry Instructions</span>
-    </a>
-
-
-
-
-    <a routerLink="/list-of-instructions-to-submit-permit" class="nav-item">
-      <span class="nav-icon">
-        <i class="pi pi-bolt"></i>
-      </span>
-      <span class="nav-text">Permit Instructions</span>
-    </a>
-
-    <!-- <a
-          routerLink="/form-schemas"
-          routerLinkActive="active"
-          class="nav-item"
+  <!-- Sections -->
+  <nav class="space-y-3 flex-1 pt-2">
+    @for (section of sections; track section.title; let idx = $index) {
+    <section>
+      <button
+        type="button"
+        (click)="toggleSection(section.title)"
+        class="w-full  flex items-center justify-between rounded-lg px-2 py-2 hover:bg-white/10"
+        [ngClass]="{ 'justify-center px-2': isCollapsed() }"
+        [attr.aria-expanded]="isSectionOpen(section.title)"
+        [attr.aria-controls]="'sec-' + idx"
+        [attr.title]="isCollapsed() ? section.title : null"
+      >
+        <span
+          class="text-[13px] font-semibold uppercase tracking-wide text-white/80"
+          [ngClass]="{ 'sr-only': isCollapsed() }"
         >
-          <mat-icon class="nav-icon">inventory_2</mat-icon>
-          <span class="nav-text">Form Schemas</span>
-        </a> -->
+          {{ section.title }}
+        </span>
+
+        <i
+          class="pi"
+          [class.hidden]="isCollapsed()"
+          [ngClass]="
+            isSectionOpen(section.title) ? 'pi-chevron-down' : 'pi-chevron-up'
+          "
+        ></i>
+      </button>
+
+      <ul
+        [id]="'sec-' + idx"
+        class="mt-1 transition-[max-height,opacity] duration-300 ease-in-out"
+        [ngClass]="isCollapsed() ? 'overflow-visible' : 'overflow-hidden'"
+        [style.maxHeight]="
+          isCollapsed()
+            ? '1000px'
+            : isSectionOpen(section.title)
+            ? '1000px'
+            : '0px'
+        "
+        [style.opacity]="
+          isCollapsed() ? 1 : isSectionOpen(section.title) ? 1 : 0
+        "
+      >
+        @for (item of section.items; track item.link) {
+        <li>
+          <a
+            [routerLink]="item.link"
+            routerLinkActive="bg-white/25 text-white shadow-inner border-white/30"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="group mb-3 relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white border border-white/10 bg-white/5 backdrop-blur"
+            [ngClass]="{ 'justify-center px-2': isCollapsed() }"
+            [attr.title]="isCollapsed() ? item.label : null"
+          >
+            <i class="pi" [ngClass]="item.icon"></i>
+            @if (!isCollapsed()) {
+            <span>{{ item.label }}</span>
+            } @if (isCollapsed()) {
+            <span
+              class="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 shadow-lg border border-gray-700"
+            >
+              {{ item.label }}
+            </span>
+            }
+          </a>
+        </li>
+        }
+      </ul>
+    </section>
+    }
   </nav>
 
-  <div class="sidebar-footer">
-    <!-- <img src="assets/images/Saned U logo Dark.svg" alt="Brand logo" class="sidebar-logo" /> -->
+  <!-- Footer: brand logo -->
+  <div
+    class="mt-3 flex items-center justify-center p-3"
+    [ngClass]="{ 'px-2 py-2': isCollapsed() }"
+  >
+    <img
+      [src]="'assets/images/Saned U logo Dark.svg'"
+      alt="Brand logo"
+      class="h-auto drop-shadow"
+      [ngClass]="isCollapsed() ? 'w-9' : 'w-36'"
+    />
   </div>
 </aside>

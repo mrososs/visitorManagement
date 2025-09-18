@@ -1,38 +1,59 @@
-<p-menubar class="main-navbar">
-    <ng-template pTemplate="start">
-        <!-- Search
-        <p-iconfield>
-            <p-inputicon class="pi pi-search" />
-            <input type="text" pInputText placeholder="What are you looking for?" pSize="small" />
-        </p-iconfield> -->
+<p-menubar class="main-navbar border-l-0 bg-white dark:bg-[#1f2937]">
+  <ng-template pTemplate="start">
+    <a routerLink="/" class="inline-flex items-center">
+      <img
+        [ngSrc]="
+          theme.currentTheme() === 'dark'
+            ? 'assets/images/Saned U logo Dark.svg'
+            : 'assets/images/saned-logo.png'
+        "
+        width="120"
+        height="40"
+        alt="Saned logo"
+        priority
+      />
+    </a>
+  </ng-template>
 
-    </ng-template>
+  <ng-template pTemplate="end" class="mr-2">
+    <span class="inline-flex items-center mr-2">
+      <!-- Notification Bell -->
 
-    <ng-template pTemplate="end" class="mr-2">
-        <span class="inline-flex mr-2">
-            <!-- Notification Bell -->
+      <p-menu #NotificationMenu [model]="NotificationItems" [popup]="true" />
+      <span class="flex mr-4" (click)="NotificationMenu.toggle($event)">
+        <p-overlaybadge value="3" class="mt-auto">
+          <i class="pi pi-bell" style="font-size: 1rem"></i>
+        </p-overlaybadge>
+      </span>
 
-            <p-menu #NotificationMenu [model]="NotificationItems" [popup]="true" />
-            <span class="flex mr-4" (click)="NotificationMenu.toggle($event)">
-                <p-overlaybadge value="3" class="mt-auto">
-                    <i class="pi pi-bell" style="font-size: 1rem"></i>
-                </p-overlaybadge>
-            </span>
+      <button
+        pButton
+        pRipple
+        class="p-button-text mr-4"
+        type="button"
+        [icon]="theme.currentTheme() === 'dark' ? 'pi pi-sun' : 'pi pi-moon'"
+        (click)="theme.toggleTheme()"
+        aria-label="Toggle theme"
+      ></button>
 
-            <p-menu #UserProfileMenu [model]="UserProfileItems" [popup]="true" />
-            <button pRipple class="relative overflow-hidden w-full border-0 bg-transparent flex items-start "
-                (click)="UserProfileMenu.toggle($event)" icon="pi-angle-down">
-                <p-avatar image="./assets/images/user-avatar.jpg" class="mx-2 border-1 shadow" shape="circle" />
-                <span class="hidden md:inline-flex flex-col">
-                    <p class="font-bold text-xs text-left">Employee Name</p>
-                    <p class="text-xs text-left">name&#64;obeikan.com</p>
-                </span>
-                <i class="pi pi-angle-down my-auto mx-3" style="font-size: 1rem"></i>
-
-
-            </button>
-
-
+      <p-menu #UserProfileMenu [model]="UserProfileItems" [popup]="true" />
+      <button
+        pRipple
+        class="relative overflow-hidden w-full border-0 bg-transparent flex items-start"
+        (click)="UserProfileMenu.toggle($event)"
+        icon="pi-angle-down"
+      >
+        <p-avatar
+          image="./assets/images/user-avatar.jpg"
+          class="mx-2 border-1 shadow"
+          shape="circle"
+        />
+        <span class="hidden md:inline-flex flex-col">
+          <p class="font-bold text-xs text-left">Employee Name</p>
+          <p class="text-xs text-left">name&#64;obeikan.com</p>
         </span>
-    </ng-template>
+        <i class="pi pi-angle-down my-auto mx-3" style="font-size: 1rem"></i>
+      </button>
+    </span>
+  </ng-template>
 </p-menubar>

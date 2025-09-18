@@ -22,9 +22,9 @@ import { Component, input, output } from '@angular/core';
       <!--filter -->
       <div class="p-4 mt-3">
         <div class="flex flex-wrap justify-between items-center gap-4">
-          <div class="flex gap-3">
+          
             <ng-content select="[filters]"></ng-content>
-          </div>
+          
           <p-button
             label="Search"
             styleClass="!bg-[#1F36B4] !border-none !text-white hover:!bg-blue-700"

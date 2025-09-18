@@ -1,21 +1,15 @@
 <div class="min-h-screen bg-background text-foreground">
-
-  <!-- Main Layout: Sidebar + Content Placeholder -->
-  <div class="layout-main flex h-screen">
+  <!-- Grid: auto-width sidebar + flexible content -->
+  <div class="grid min-h-screen grid-cols-[auto_1fr] flex-nowrap">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <aside class="h-full">
       <app-sidebar></app-sidebar>
+    </aside>
 
-    </div>
-
-    <!-- MAIN CONTENT PLACEHOLDER -->
-    <div class="content-placeholder w-full bg-surface-100">
-      <div class="placeholder-box"> 
-         <app-navigation></app-navigation>
-
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+    <!-- Main content -->
+    <main class="h-full w-full">
+      <app-navigation></app-navigation>
+      <router-outlet ></router-outlet>
+    </main>
   </div>
-
 </div>

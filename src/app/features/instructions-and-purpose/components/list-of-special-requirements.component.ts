@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -7,42 +7,53 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TableModule } from 'primeng/table';
 import { PurposeModule } from '../../../shared/components/instructions&purpose/purpose.module';
+import {
+  DynamicDialogModule,
+  DialogService,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { SharedUIModule } from '../../../shared/UI/shared-ui.module';
+import { CustomDialogComponent } from '../../../shared/UI/custom-dialog/custom-dialog.component';
 
 @Component({
   selector: 'app-list-of-special-requirements',
   standalone: true,
+  providers: [DialogService],
   imports: [
     CommonModule,
     FormsModule,
     ButtonModule,
-    InputTextModule,
-    FloatLabel,
     ToggleSwitchModule,
     TableModule,
     PurposeModule,
+    DynamicDialogModule,
+    SharedUIModule,
   ],
   template: `
-    <div class="container mx-auto p-6">
+    <div
+      class="container mx-auto p-6 border-l-1 min-h-[calc(100vh-64px)] border-l-[#e2e8f0] dark:border-l-[#3f3f46]"
+    >
       <app-purpose-list
         [title]="'List of Special Requirement'"
         (add)="onAddSpecialRequirement()"
         (search)="onSearch()"
       >
         <div class="flex gap-3" filters>
-          <!-- Special Requirement Name Filter -->
+          <!-- Special Requirement Name Filter (Shared UI) -->
           <div class="flex flex-col">
-            <label class="text-sm font-medium text-gray-700 mb-1"
+            <label
+              class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"
               >Special Requirement Name</label
             >
-            <p-floatLabel>
-              <input
-                pInputText
-                id="specialRequirementName"
-                [(ngModel)]="specialRequirementNameFilter"
-                class="w-64"
-              />
-              <label for="specialRequirementName">Input Text</label>
-            </p-floatLabel>
+            <app-dynamic-floatlabel
+              [config]="{
+                id: 'specialRequirementName',
+                label: 'Input Text',
+                placeholder: '',
+                styleClass: 'w-64'
+              }"
+              (onInput)="specialRequirementNameFilter = $event"
+            />
           </div>
         </div>
 
@@ -123,6 +134,8 @@ import { PurposeModule } from '../../../shared/components/instructions&purpose/p
   ],
 })
 export class ListOfSpecialRequirementsComponent {
+  private dialogService = inject(DialogService);
+  private dialogRef: DynamicDialogRef | undefined;
   specialRequirementNameFilter = '';
 
   specialRequirements = [
@@ -139,7 +152,35 @@ export class ListOfSpecialRequirementsComponent {
   ];
 
   onAddSpecialRequirement() {
-    console.log('Add Special Requirement clicked');
+    this.dialogRef = this.dialogService.open(CustomDialogComponent, {
+      header: 'Add New Special Requirement',
+      width: '520px',
+      modal: true,
+      dismissableMask: true,
+      closable: true,
+      styleClass: 'rounded-2xl overflow-visible',
+      contentStyle: { overflow: 'visible' },
+      data: {
+        submitLabel: 'Submit',
+        cancelLabel: 'Cancel',
+        fields: [
+          {
+            key: 'name',
+            label: 'Special Requirement',
+            type: 'text',
+            required: true,
+            placeholder: 'Input Text',
+          },
+        ],
+        initialValue: {},
+      },
+    });
+
+    this.dialogRef.onClose.subscribe((result) => {
+      if (result?.saved) {
+        // handle new special requirement here
+      }
+    });
   }
 
   onSearch() {

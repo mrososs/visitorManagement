@@ -1,6 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Menubar (navbar) left edge: no border-left and no left rounding */
+.p-menubar {
+  border-left: none !important;
+  border-radius: 0 !important;
+  background-color: #ffffff !important;
+}
+.dark .p-menubar {
+  background-color: #1f2937 !important; /* tailwind gray-800 */
+}
 
 .custom-table {
   border: none !important;
@@ -89,8 +105,8 @@
     }
   }
 }
-.p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider{
-  background: #2F50FC !important;
+.p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: #2f50fc !important;
 }
 
 .card-template {

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
@@ -16,12 +16,13 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { Menu } from 'primeng/menu';
-
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     Ripple,
     RouterModule,
     ButtonModule,
@@ -35,28 +36,29 @@ import { Menu } from 'primeng/menu';
     OverlayBadgeModule,
     AvatarModule,
     AvatarGroupModule,
-    MenuModule, Menu
+    MenuModule,
+    Menu,
+    NgOptimizedImage,
   ],
   templateUrl: './navigation.component.html',
-
 })
 export class NavigationComponent {
+  public theme = inject(ThemeService);
 
   UserProfileItems: MenuItem[] | undefined;
   NotificationItems: MenuItem[] | undefined;
 
   ngOnInit() {
-
     this.UserProfileItems = [
       {
         label: 'Profile',
         icon: 'pi pi-user',
-        routerLink: 'UserProfile'
+        routerLink: 'UserProfile',
       },
       {
         label: 'Settings',
         icon: 'pi pi-cog',
-        routerLink: 'Settings'
+        routerLink: 'Settings',
       },
       {
         separator: true,
@@ -64,7 +66,7 @@ export class NavigationComponent {
       {
         label: 'LogOut',
         icon: 'pi pi-sign-out',
-        routerLink: 'LogOut'
+        routerLink: 'LogOut',
       },
     ];
 
@@ -72,18 +74,15 @@ export class NavigationComponent {
       {
         label: 'Messages 1',
         icon: 'pi pi-envelope',
-      } ,
+      },
       {
         label: 'Messages 2',
         icon: 'pi pi-envelope',
-      } ,
+      },
       {
         label: 'Messages 3',
         icon: 'pi pi-envelope',
-      } 
+      },
     ];
-
   }
-
-
 }

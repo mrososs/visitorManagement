@@ -8,7 +8,7 @@ import {
   selector: 'app-dynamic-floatlabel',
   standalone: false,
   template: `
-    <p-floatlabel [ngClass]="config().styleClass">
+    <p-floatlabel [ngClass]="config().styleClass" variant="on">
       <input
         pInputText
         [id]="config().id"
@@ -18,7 +18,7 @@ import {
         [readonly]="config().readonly"
         [required]="config().required"
         [autocomplete]="config().autocomplete"
-        (input)="onInput.emit($event)"
+        (input)="onInput.emit($any($event.target)?.value ?? '')"
         (blur)="onBlur.emit($event)"
         (focus)="onFocus.emit($event)"
       />
@@ -29,7 +29,7 @@ import {
 })
 export class DynamicFloatLabelComponent {
   config = input.required<FloatLabelConfig>();
-  onInput = output<Event>();
+  onInput = output<string>();
   onBlur = output<Event>();
   onFocus = output<Event>();
 }

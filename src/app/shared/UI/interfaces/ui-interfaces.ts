@@ -72,3 +72,33 @@ export interface TableConfig {
   rows?: number;
   totalRecords?: number;
 }
+
+// Dynamic dialog + form configs
+export type DynamicFormFieldType = 'text' | 'select';
+
+export interface DynamicFormFieldBase {
+  key: string;
+  label: string;
+  type: DynamicFormFieldType;
+  placeholder?: string;
+  required?: boolean;
+}
+
+export interface DynamicTextField extends DynamicFormFieldBase {
+  type: 'text';
+}
+
+export interface DynamicSelectField extends DynamicFormFieldBase {
+  type: 'select';
+  options: Array<{ label: string; value: any }>;
+}
+
+export type DynamicFormField = DynamicTextField | DynamicSelectField;
+
+export interface DynamicDialogData {
+  header: string;
+  submitLabel?: string;
+  cancelLabel?: string;
+  fields: DynamicFormField[];
+  initialValue?: Record<string, any>;
+}

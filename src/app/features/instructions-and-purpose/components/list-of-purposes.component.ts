@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -8,59 +8,71 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TableModule } from 'primeng/table';
 import { PurposeModule } from '../../../shared/components/instructions&purpose/purpose.module';
+import {
+  DynamicDialogModule,
+  DialogService,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { SharedUIModule } from '../../../shared/UI/shared-ui.module';
+import { CustomDialogComponent } from '../../../shared/UI/custom-dialog/custom-dialog.component';
 
 @Component({
   selector: 'app-list-of-purposes',
   standalone: true,
+  providers: [DialogService],
   imports: [
     CommonModule,
     FormsModule,
     ButtonModule,
-    InputTextModule,
-    Select,
-    FloatLabel,
+    // Removed direct input/select usage in favor of SharedUIModule components
     ToggleSwitchModule,
     TableModule,
     PurposeModule,
+    DynamicDialogModule,
+    SharedUIModule,
   ],
   template: `
-    <div class="container mx-auto p-6">
+    <div
+      class="container mx-auto p-6 border-l-1 min-h-[calc(100vh-64px)] border-l-[#e2e8f0] dark:border-l-[#3f3f46]"
+    >
       <app-purpose-list
         [title]="'List of Purposes'"
         (add)="onAddPurpose()"
         (search)="onSearch()"
       >
-        <div class="flex gap-3" filters>
+        <div class="flex flex-wrap gap-3" filters>
           <!-- Purpose Name Filter -->
           <div class="flex flex-col">
-            <label class="text-sm font-medium text-gray-700 mb-1"
+            <label
+              class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"
               >Purpose Name</label
             >
-            <p-floatLabel>
-              <input
-                pInputText
-                id="purposeName"
-                [(ngModel)]="purposeNameFilter"
-                class="w-64"
-              />
-              <label for="purposeName">Input Text</label>
-            </p-floatLabel>
+            <app-dynamic-floatlabel
+              [config]="{
+                id: 'purposeName',
+                label: 'Input Text',
+                placeholder: '',
+                styleClass: 'w-64'
+              }"
+              (onInput)="purposeNameFilter = $event"
+            />
           </div>
 
           <!-- Card Template Filter -->
-          <div class="flex flex-col">
-            <label class="text-sm font-medium text-gray-700 mb-1"
+          <div class="flex flex-col w-100">
+            <label
+              class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3"
               >Card Template</label
             >
-            <p-floatLabel>
-              <p-select
-                id="cardTemplate"
-                [(ngModel)]="cardTemplateFilter"
-                [options]="cardTemplateOptions"
-                class="w-48"
-              />
-              <label for="cardTemplate">All</label>
-            </p-floatLabel>
+            <app-dynamic-select-floatlabel
+              [config]="{
+                id: 'cardTemplate',
+                label: '',
+                options: cardTemplateOptions,
+                styleClass: 'w-64'
+              }"
+              (onChange)="cardTemplateFilter = $event?.value"
+            />
           </div>
         </div>
 
@@ -180,6 +192,8 @@ import { PurposeModule } from '../../../shared/components/instructions&purpose/p
   ],
 })
 export class ListOfPurposesComponent {
+  private dialogService = inject(DialogService);
+  private dialogRef: DynamicDialogRef | undefined;
   purposeNameFilter = '';
   cardTemplateFilter = '';
 
@@ -205,7 +219,42 @@ export class ListOfPurposesComponent {
   ];
 
   onAddPurpose() {
-    console.log('Add Purpose clicked');
+    this.dialogRef = this.dialogService.open(CustomDialogComponent, {
+      header: 'Add New Purpose',
+      width: '520px',
+      modal: true,
+      dismissableMask: true,
+      closable: true,
+      styleClass: 'rounded-2xl overflow-visible',
+      contentStyle: { overflow: 'visible' },
+      data: {
+        submitLabel: 'Submit',
+        cancelLabel: 'Cancel',
+        fields: [
+          {
+            key: 'name',
+            label: 'Purpose Name',
+            type: 'text',
+            required: true,
+            placeholder: 'Input Text',
+          },
+          {
+            key: 'template',
+            label: 'Select Card Template',
+            type: 'select',
+            required: true,
+            options: this.cardTemplateOptions,
+          },
+        ],
+        initialValue: {},
+      },
+    });
+
+    this.dialogRef.onClose.subscribe((result) => {
+      if (result?.saved) {
+        // TODO: handle saving new purpose
+      }
+    });
   }
 
   onSearch() {
