@@ -44,22 +44,17 @@ export class SidebarComponent implements OnDestroy {
       ],
     },
     {
-      title:'Form Builder',
+      title: 'Form Builder',
       icon: 'pi pi-file-edit',
-      items:[
+      items: [
+        { label: 'Create form', icon: 'pi pi-plus', link: '/create-form' },
         {
-          label: 'create form',
-          icon: 'pi pi-bullseye',
-          link: '/create-form',
-        },
-        {
-          label:'form schemas',
-          icon: 'pi pi-bullseye',
+          label: 'Form schemas',
+          icon: 'pi pi-database',
           link: '/form-schemas',
-        }
-      ]
-
-    }
+        },
+      ],
+    },
   ];
   constructor() {
     const first = this.sections[0]?.title;

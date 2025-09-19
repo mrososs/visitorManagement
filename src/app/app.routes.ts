@@ -2,6 +2,20 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'create-form',
+    loadComponent: () =>
+      import(
+        './features/form-builder/components/create-form-page.component'
+      ).then((m) => m.CreateFormPageComponent),
+  },
+  {
+    path: 'form-schemas',
+    loadComponent: () =>
+      import(
+        './features/form-builder/components/form-schemas-list/form-schemas-list.component'
+      ).then((m) => m.FormSchemasListComponent),
+  },
+  {
     path: 'list-of-purposes',
     loadComponent: () =>
       import(
@@ -31,7 +45,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/list-of-purposes',
+    redirectTo: '/create-form',
     pathMatch: 'full',
   },
 ];

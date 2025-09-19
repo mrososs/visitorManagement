@@ -1,4 +1,4 @@
-import { FormField } from "./filed";
+import { FormField } from "./field";
 
 export interface FormRow{
     id:string;
